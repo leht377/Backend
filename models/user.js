@@ -1,28 +1,24 @@
-const mongoose = require("mongoose")
-const uniquevalidator = require("mongoose-unique-validator")
+const mongoose = require('mongoose');
+const uniquevalidator = require('mongoose-unique-validator');
 
 const usersSchema = new mongoose.Schema({
-    userName:{
-        type:String, unique:true, minlength:3
-    },
-     
-    name:{
-        type:String, minlenght:3
-    },
+  username: {
+    type: String,
+    unique: true,
+    minlength: 3,
+  },
+  name: {
+    type: String,
+    minlenght: 3,
+  },
+  passwordHash: {
+    type: String,
+    minlenght: 3,
+  },
+  phones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Phone' }],
+});
 
-    passwordHash:{
-
-        type:String, minlenght:3
-  
-    },
-
-    phones:[{type:mongoose.Schema.Types.ObjectId, ref:"Phone"}]
-    
-
-
-})
-
-//plugin es mongoose sirve para añadirle una modalidad al esquema 
-usersSchema.plugin(uniquevalidator)
-const User = mongoose.model("User", usersSchema)
-module.exports = User
+//plugin es mongoose sirve para añadirle una modalidad al esquema
+usersSchema.plugin(uniquevalidator);
+const User = mongoose.model('User', usersSchema);
+module.exports = User;
