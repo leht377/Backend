@@ -6,7 +6,7 @@ const User = require('../models/user');
 loginRouter.post('/', async (request, response) => {
   const body = request.body;
 
-  const user = await User.findOne({ userName: body.username });
+  const user = await User.findOne({ username: body.username });
   const passwordCorrect =
     user === null
       ? false
@@ -19,7 +19,7 @@ loginRouter.post('/', async (request, response) => {
   }
 
   const userForToken = {
-    userName: user.userName,
+    username: user.username,
     id: user._id,
   };
 
@@ -27,7 +27,7 @@ loginRouter.post('/', async (request, response) => {
 
   response
     .status(200)
-    .send({ token, userName: user.userName, name: user.name, id: user._id });
+    .send({ token, username: user.username, name: user.name, id: user._id });
 });
 
 module.exports = loginRouter;
