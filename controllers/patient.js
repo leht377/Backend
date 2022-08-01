@@ -1,0 +1,107 @@
+const jwt = require('jsonwebtoken');
+const { default: mongoose } = require('mongoose');
+const MedicalHistory = require('../models/medicalHistory');
+const patientRouter = require('express').Router();
+const Patient = require('../models/patient');
+
+patientRouter.get('/:id', async (request, response) => {
+  const decodeToken = jwt.verify(request.token, process.env.SECRET);
+
+  if (!request.token || !decodeToken.id) {
+    return response.status(401).json({ error: 'Token perdido o Invalido' });
+  }
+
+  let Patients = [];
+
+  if (mongoose.isValidObjectId(request.params.id)) {
+    Patients = await Patient.find({
+      _id: request.params.id,
+      user: decodeToken.id,
+    })
+      .populate('medicalHistory', {
+        Derecha_sup: 1,
+        Derecha_inf: 1,
+        Izquierda_sup: 1,
+        Izquierda_inf: 1,
+      })
+      .populate('user', {
+        name: 1,
+        _id: 0,
+      });
+  } else {
+    Patients = await Patient.find({
+      cedula: request.params.id,
+      user: decodeToken.id,
+    });
+  }
+
+  response.json(Patients);
+});
+
+patientRouter.get('/', async (request, response) => {
+  const decodeToken = jwt.verify(request.token, process.env.SECRET);
+
+  if (!request.token || !decodeToken.id) {
+    return response.status(401).json({ error: 'Token perdido o Invalido' });
+  }
+
+  const Patients = await Patient.find({ user: decodeToken.id });
+  response.json(Patients);
+});
+
+patientRouter.post('/', async (request, response) => {
+  const decodeToken = jwt.verify(request.token, process.env.SECRET);
+
+  if (!request.token || !decodeToken.id) {
+    return response.status(401).json({ error: 'Token perdido o Invalido' });
+  }
+
+  const medicalHistory = new MedicalHistory({
+    Derecha_sup: request.body.Derecha_sup,
+    Derecha_inf: request.body.Derecha_inf,
+    Izquierda_sup: request.body.Izquierda_sup,
+    Izquierda_inf: request.body.Izquierda_inf,
+  });
+
+  const { _id } = await medicalHistory.save({
+    validateModifiedOnly: true,
+  });
+
+  const patinet = new Patient({
+    nombre: request.body.nombre,
+    edad: request.body.edad,
+    cedula: request.body.cedula,
+    number: request.body.number,
+    user: decodeToken.id,
+    medicalHistory: _id,
+  });
+
+  const patientSaved = await patinet.save();
+
+  response.json(patientSaved).status(201);
+});
+
+/*
+patientRouter.put("/:id", async (request, response) => {
+  const decodeToken = jwt.verify(request.token, process.env.SECRET);
+  const bodyPatient = request.body
+  if (!request.token || !decodeToken.id) {
+    return response.status(401).json({ error: "Token perdido o Invalido" });
+  }
+
+  const Patient = {
+    name: bodyPatient.name,
+    number: bodyPatient.number,
+    user: decodeToken.id
+  };
+
+  const {id} = await Patient.findByIdAndUpdate(request.params.id, Patient, {new: true})
+  const PatientUpdated = await Patient.findById(id)
+  response.json(PatientUpdated).status(200)
+
+
+});
+
+*/
+
+module.exports = patientRouter;

@@ -15,7 +15,7 @@ const usersSchema = new mongoose.Schema({
     type: String,
     minlenght: 3,
   },
-  phones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Phone' }],
+  patients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }],
 });
 
 //plugin es mongoose sirve para añadirle una modalidad al esquema
