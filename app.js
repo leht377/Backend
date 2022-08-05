@@ -30,11 +30,11 @@ app.use('/api/patient', patientRouter);
 const loginRouter = require('./controllers/login');
 app.use('/api/login', loginRouter);
 
-// app.get('/*', function (req, res) {
-//   res.sendFile(path.join(__dirname, '/build/index.html'), function (err) {
-//     if (err) {
-//       res.status(500).send(err);
-//     }
-//   });
-// });
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '/build/index.html'), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
 module.exports = app;
