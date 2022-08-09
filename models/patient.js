@@ -5,20 +5,25 @@ const patientSchema = new mongoose.Schema({
   nombre: {
     type: String,
     minlength: 3,
+    required: true,
   },
 
   edad: {
-    type: String,
+    type: Number,
     minlength: 1,
+    maxlength: 2,
+    required: true,
   },
   cedula: {
     type: String,
     minlength: 3,
     unique: true,
+    required: true,
   },
   number: {
     type: String,
     minlenght: 11,
+    required: true,
     required: true,
   },
 

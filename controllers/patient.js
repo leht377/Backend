@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { default: mongoose } = require('mongoose');
 const MedicalHistory = require('../models/medicalHistory');
 const patientRouter = require('express').Router();
 const Patient = require('../models/patient');
@@ -11,9 +10,15 @@ patientRouter.get('/:id', async (request, response) => {
     return response.status(401).json({ error: 'Token perdido o Invalido' });
   }
 
-  let Patients = [];
+  let Patients;
 
-  if (mongoose.isValidObjectId(request.params.id)) {
+  //BUSCAR POR CEDULA
+  Patients = await Patient.find({
+    cedula: request.params.id,
+    user: decodeToken.id,
+  });
+
+  if (JSON.stringify(Patients) === '[]') {
     Patients = await Patient.find({
       _id: request.params.id,
       user: decodeToken.id,
@@ -28,11 +33,6 @@ patientRouter.get('/:id', async (request, response) => {
         name: 1,
         _id: 0,
       });
-  } else {
-    Patients = await Patient.find({
-      cedula: request.params.id,
-      user: decodeToken.id,
-    });
   }
 
   response.json(Patients);
