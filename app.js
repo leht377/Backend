@@ -35,6 +35,9 @@ app.use('/api/login', loginRouter);
 const teethDiseasesRouter = require('./controllers/teethDiseases');
 app.use('/api/teethDiseases', teethDiseasesRouter);
 
+const  allergyRouter = require('./controllers/allergy');
+app.use('/api/allergy', allergyRouter);
+
 app.use(middlewares.unknownEndpoint);
 app.use(middlewares.errorHandler);
 

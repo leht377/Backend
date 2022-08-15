@@ -1,10 +1,8 @@
-POST http://localhost:3001/api/user
+POST http://localhost:3001/api/allergy
 content-type:application/json
 
 {
- "username":"Anibal94",
- "name":"Anibal",
- "password":"12345"   
+ "Nombre": "Alergia a metales"
 }
 
 ###
