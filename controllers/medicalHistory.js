@@ -32,24 +32,27 @@ medicalHistoryRouter.get('/:idPatient', async (request, response) => {
   response.json(medicalHistories);
 });
 
-medicalHistoryRouter.post('/', async (request, response) => {
-  const decodeToken = jwt.verify(request.token, process.env.SECRET);
+// medicalHistoryRouter.post('/', async (request, response) => {
+//   const decodeToken = jwt.verify(request.token, process.env.SECRET);
 
-  if (!request.token || !decodeToken.id) {
-    return response.status(401).json({ error: 'Token perdido o Invalido' });
-  }
+//   if (!request.token || !decodeToken.id) {
+//     return response.status(401).json({ error: 'Token perdido o Invalido' });
+//   }
 
-  const medicalHistory = new MedicalHistory({
-    Derecha_sup: request.body.Derecha_sup,
-    Derecha_inf: request.body.Derecha_inf,
-    Izquierda_sup: request.body.Izquierda_sup,
-    Izquierda_inf: request.body.Izquierda_inf,
-    patient: request.body.patient,
-  });
+//   console.log(request.body.alergias);
+//   const medicalHistory = new MedicalHistory({
+//     Derecha_sup: request.body.Derecha_sup,
+//     Derecha_inf: request.body.Derecha_inf,
+//     Izquierda_sup: request.body.Izquierda_sup,
+//     Izquierda_inf: request.body.Izquierda_inf,
+//     patient: request.body.patient,
+//     Alergias: request.body.alergias,
+//   });
 
-  await medicalHistory.save({
-    validateModifiedOnly: true,
-  });
+//   console.log(medicalHistory);
+//   // await medicalHistory.save({
+//   //   validateModifiedOnly: true,
+//   // });
 
-  response.json(medicalHistories);
-});
+//   response.json(true);
+// });

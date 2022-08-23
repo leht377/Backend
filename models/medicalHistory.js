@@ -30,12 +30,17 @@ const medicalHistorySchema = new mongoose.Schema({
     },
   ],
 
-Alergias: [
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Allergy',
-  },]
+  Alergias: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Allergy',
+    },
+  ],
 
+  precio_del_tratamiento: {
+    type: Number,
+    required: true,
+  },
 });
 
 medicalHistorySchema.plugin(uniquevalidator);

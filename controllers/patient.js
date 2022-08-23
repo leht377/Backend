@@ -23,12 +23,12 @@ patientRouter.get('/:id', async (request, response) => {
       _id: request.params.id,
       user: decodeToken.id,
     })
-      .populate('medicalHistory', {
-        Derecha_sup: 1,
-        Derecha_inf: 1,
-        Izquierda_sup: 1,
-        Izquierda_inf: 1,
-      })
+      .populate([
+        {
+          path: 'medicalHistory',
+          populate: [{ path: 'Alergias', select: 'Nombre' }],
+        },
+      ])
       .populate('user', {
         name: 1,
         _id: 0,
@@ -61,8 +61,11 @@ patientRouter.post('/', async (request, response) => {
     Derecha_inf: request.body.Derecha_inf,
     Izquierda_sup: request.body.Izquierda_sup,
     Izquierda_inf: request.body.Izquierda_inf,
+    Alergias: request.body.alergias,
+    precio_del_tratamiento: Number(request.body.precio),
   });
 
+  console.log(medicalHistory);
   const { _id } = await medicalHistory.save({
     validateModifiedOnly: true,
   });
