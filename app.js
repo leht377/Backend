@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const { MONGOURI } = require('./utils/confing');
 const middlewares = require('./utils/middlewares');
-const morgan = require('morgan');
+//const morgan = require('morgan');
 const path = require('path');
 
 var bodyParser = require('body-parser');
@@ -30,7 +30,7 @@ app.use(
 );
 
 app.use(cors());
-app.use(morgan('tiny'));
+//app.use(morgan('tiny'));
 app.use(express.static('build'));
 app.use(express.json());
 app.use(middlewares.tokenExtractor);
