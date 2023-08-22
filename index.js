@@ -1,7 +1,7 @@
 const http = require('http');
 const app = require('./app');
 const server = http.createServer(app);
-const { PORT } = require('./utils/confing');
+const { PORT, MONGOURI } = require('./utils/confing');
 const PUERT0 = PORT || 3001;
 
 server.listen(PUERT0, () => {
